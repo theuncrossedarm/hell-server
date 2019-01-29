@@ -3,11 +3,10 @@ import youtube_dl
 import os
 import eyed3
 
-
 def get_audio(url, artist, title):
-    root_dir = "C:\\Users\\Matt\\Desktop\\Youtube Thing"
+    root_dir = "C:\\Users\\robfa\\Documents\\Python\\Youtube Thing"
     temp_dir = root_dir + "\\Temp"
-    spotify_dir = "C:\\Users\\Matt\\Music\\From YouTube"
+    spotify_dir = "C:\\Users\\robfa\\Music\\From YouTube"
     options = {
         'format': 'bestaudio/best',  # choice of quality
         'extractaudio': True,  # only keep the audio
@@ -31,7 +30,11 @@ def get_audio(url, artist, title):
         file_name, file_extension = os.path.splitext(x)
         downloaded_file_path = temp_dir + "\\" + x
         processed_file_path = temp_dir + "\\" + file_name + ".mp3"
-        subprocess.run(["cmd.bat", downloaded_file_path, processed_file_path])
+        #subprocess.run(["cmd.bat", downloaded_file_path, processed_file_path])
+        subprocess.run(["C:\\Program Files\\ffmpeg\\bin\\ffmpeg.exe", "-y", "-i", downloaded_file_path, "-acodec", "libmp3lame", "-ab", "128k", processed_file_path])
+        #Use of ffmpeg path will be irritating - can we pick this up dynamically (environment variables?)
+        #"C:\Program Files\ffmpeg\bin\ffmpeg.exe" -y -i %1 -acodec libmp3lame -ab 128k %2
+        #
 
         final_file_path = spotify_dir + "\\" + file_name + ".mp3"
 
@@ -53,8 +56,17 @@ def get_audio(url, artist, title):
 
 
 def main():
-    print("There's no main function.")
+
+    get_audio(['https://www.youtube.com/watch?v=RPxvTd_jCPQ'], "Young Scrolls", "Sheogorath - Zoom")
+    #with open("C:\\Users\\robfa\\Desktop\\BookMarks.html", "r") as file:
+    #    for line in file:
+    #        try:
+    #            get_audio([line], '', '')
+    #        except:
+    #            pass
+            ##get_audio(['https://www.youtube.com/watch?v=CsvhTfv-_Sw'], 'Dmitry Glushkov', 'Gimme Gimme Gimme')
 
 
 if __name__ == "__main__":
     main()
+
